@@ -11,7 +11,7 @@ import { api } from '../services/api';
 import TimePeriodFilter, { sliceDataByPeriod } from './TimePeriodFilter';
 
 export default function BenchmarkRiskView({ summary, trades = [], onUpdateRiskFreeRate }) {
-  const [timeFilter, setTimeFilter] = useState('3M');
+  const [timeFilter, setTimeFilter] = useState('6M');
   const [benchmarkTicker, setBenchmarkTicker] = useState('^GSPC');
   const [rawChartData, setRawChartData] = useState([]);
   const [isLoading, setIsLoading] = useState(false);
@@ -22,8 +22,8 @@ export default function BenchmarkRiskView({ summary, trades = [], onUpdateRiskFr
   const fetchComparison = async () => {
     setIsLoading(true);
     try {
-      // Fetch full 1y series and slice client-side for zero latency
-      const data = await api.getBenchmarkComparison(benchmarkTicker, '1y');
+      // Fetch full 5y series and slice client-side for zero latency
+      const data = await api.getBenchmarkComparison(benchmarkTicker, '5y');
       setRawChartData(data || []);
     } catch (err) {
       console.error('Error fetching benchmark comparison:', err);

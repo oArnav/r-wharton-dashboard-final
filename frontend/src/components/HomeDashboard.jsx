@@ -508,14 +508,14 @@ export default function HomeDashboard({
                 <Eye className="w-5 h-5" />
               </div>
               <span className="text-[10px] uppercase font-extrabold px-1.5 py-0.5 rounded bg-blue-100 text-blue-800">
-                Phase 4
+                Pipeline
               </span>
             </div>
             <h3 className="font-bold text-sm text-slate-900 mt-3 group-hover:text-blue-600 transition">Watchlist Pipeline</h3>
             <p className="text-xs text-slate-500 mt-1">Prospective stock pipeline with target prices, thesis tracking, and 1-click Convert to Trade.</p>
           </button>
 
-          {/* Phase 4: Financial Statements */}
+          {/* Financial Statements */}
           <button
             onClick={() => onSelectTab('statements')}
             className="p-4 rounded-xl border border-indigo-200 bg-indigo-50/30 hover:border-indigo-500 hover:bg-white hover:shadow-md transition text-left group"
@@ -525,14 +525,14 @@ export default function HomeDashboard({
                 <FileSpreadsheet className="w-5 h-5" />
               </div>
               <span className="text-[10px] uppercase font-extrabold px-1.5 py-0.5 rounded bg-indigo-100 text-indigo-800">
-                Phase 4
+                Filings
               </span>
             </div>
             <h3 className="font-bold text-sm text-slate-900 mt-3 group-hover:text-indigo-600 transition">Financial Statement Fetcher</h3>
             <p className="text-xs text-slate-500 mt-1">Raw Income Statement, Balance Sheet, and Cash Flow filings with annual/quarterly toggles.</p>
           </button>
 
-          {/* Phase 4: Compare View */}
+          {/* Compare View */}
           <button
             onClick={() => onSelectTab('compare')}
             className="p-4 rounded-xl border border-purple-200 bg-purple-50/30 hover:border-purple-500 hover:bg-white hover:shadow-md transition text-left group"
@@ -542,7 +542,7 @@ export default function HomeDashboard({
                 <Scale className="w-5 h-5" />
               </div>
               <span className="text-[10px] uppercase font-extrabold px-1.5 py-0.5 rounded bg-purple-100 text-purple-800">
-                Phase 4
+                Matrix
               </span>
             </div>
             <h3 className="font-bold text-sm text-slate-900 mt-3 group-hover:text-purple-600 transition">Peer Comparison Matrix</h3>
@@ -606,7 +606,7 @@ export default function HomeDashboard({
               <TrendingUp className="w-5 h-5" />
             </div>
             <h3 className="font-bold text-sm text-slate-900 mt-3 group-hover:text-purple-600 transition">Benchmark & Risk Engine</h3>
-            <p className="text-xs text-slate-500 mt-1">Portfolio vs S&P 500 cumulative return chart, 1W/1M/3M/YTD/All filters, Sharpe, and beta.</p>
+            <p className="text-xs text-slate-500 mt-1">Portfolio vs S&P 500 cumulative return chart, 1D/5D/1M/6M/YTD/1Y/5Y/All filters, Sharpe, and beta.</p>
           </button>
 
           {/* 6. Report Outline Skeleton */}

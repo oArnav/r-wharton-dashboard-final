@@ -59,7 +59,7 @@ export default function PortfolioOverview({
   }, []);
 
   useEffect(() => {
-    api.getBenchmarkComparison('^GSPC', '1y')
+    api.getBenchmarkComparison('^GSPC', '5y')
       .then((data) => setPortfolioHistory(data))
       .catch((err) => console.error(err));
   }, [trades]);

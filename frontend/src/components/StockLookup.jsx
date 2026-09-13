@@ -18,7 +18,7 @@ export default function StockLookup({ initialTicker = '', onAddTradeWithTicker, 
   const [tickerInput, setTickerInput] = useState(initialTicker || 'AAPL');
   const [stockData, setStockData] = useState(null);
   const [historyData, setHistoryData] = useState([]);
-  const [timeFilter, setTimeFilter] = useState('3M');
+  const [timeFilter, setTimeFilter] = useState('6M');
   const [isLoading, setIsLoading] = useState(false);
   const [isLoadingHistory, setIsLoadingHistory] = useState(false);
   const [error, setError] = useState('');
@@ -43,7 +43,7 @@ export default function StockLookup({ initialTicker = '', onAddTradeWithTicker, 
       } else {
         setCustomGrowthRate('');
       }
-      fetchPriceHistory(sym, '1y');
+      fetchPriceHistory(sym, '5y');
     } catch (err) {
       setError(err.message || `Failed to retrieve data for '${sym}'.`);
       setStockData(null);

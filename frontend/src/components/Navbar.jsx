@@ -34,9 +34,9 @@ export default function Navbar({
     { id: 'home', label: 'Command Center', shortLabel: 'Home', icon: Home },
     { id: 'overview', label: 'Portfolio & IPS', shortLabel: 'Portfolio', icon: LayoutDashboard },
     { id: 'trades', label: 'Trade Log', shortLabel: 'Trades', icon: ListOrdered },
-    { id: 'watchlist', label: 'Watchlist', shortLabel: 'Watchlist', icon: Eye, isNew: true },
-    { id: 'statements', label: 'Financial Statements', shortLabel: 'Statements', icon: FileSpreadsheet, isNew: true },
-    { id: 'compare', label: 'Compare Matrix', shortLabel: 'Compare', icon: Scale, isNew: true },
+    { id: 'watchlist', label: 'Watchlist', shortLabel: 'Watchlist', icon: Eye },
+    { id: 'statements', label: 'Financial Statements', shortLabel: 'Statements', icon: FileSpreadsheet },
+    { id: 'compare', label: 'Compare Matrix', shortLabel: 'Compare', icon: Scale },
     { id: 'screener', label: 'Screener', shortLabel: 'Screener', icon: SlidersHorizontal },
     { id: 'sectors', label: 'Sectors', shortLabel: 'Sectors', icon: Layers },
     { id: 'benchmark', label: 'Risk / Benchmark', shortLabel: 'Risk', icon: TrendingUp },
@@ -162,9 +162,6 @@ export default function Navbar({
             <div>
               <div className="flex items-center space-x-2">
                 <span className="font-extrabold text-base sm:text-lg tracking-tight text-white">Wharton WInS</span>
-                <span className="text-[10px] uppercase px-2 py-0.5 rounded-full bg-blue-500/20 text-blue-300 font-bold border border-blue-400/30">
-                  Phase 4
-                </span>
               </div>
               <p className="text-[11px] text-slate-400 hidden sm:block">$500,000 Team Virtual Fund</p>
             </div>
