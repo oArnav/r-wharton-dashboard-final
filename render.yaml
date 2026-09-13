@@ -1,0 +1,12 @@
+services:
+  # Unified Web Service (Free tier on Render)
+  - type: web
+    name: wharton-wins-dashboard
+    env: python
+    region: oregon
+    plan: free
+    buildCommand: "cd frontend && npm install && npm run build && cd .. && pip install -r backend/requirements.txt"
+    startCommand: "cd backend && python main.py"
+    envVars:
+      - key: PORT
+        value: 10000
