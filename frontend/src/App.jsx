@@ -30,6 +30,24 @@ export default function App() {
   const [isRefreshing, setIsRefreshing] = useState(false);
   const [globalError, setGlobalError] = useState('');
   const [toast, setToast] = useState(null);
+  const [isDarkMode, setIsDarkMode] = useState(() => {
+    return localStorage.getItem('wins_theme') === 'dark';
+  });
+
+  // Synchronize dark class on documentElement
+  useEffect(() => {
+    if (isDarkMode) {
+      document.documentElement.classList.add('dark');
+      localStorage.setItem('wins_theme', 'dark');
+    } else {
+      document.documentElement.classList.remove('dark');
+      localStorage.setItem('wins_theme', 'light');
+    }
+  }, [isDarkMode]);
+
+  const handleToggleDarkMode = () => {
+    setIsDarkMode((prev) => !prev);
+  };
 
   // Cross-tab actions & state
   const [selectedLookupTicker, setSelectedLookupTicker] = useState('AAPL');
@@ -187,9 +205,11 @@ export default function App() {
   };
 
   return (
-    <div className="min-h-screen bg-slate-50 flex flex-col font-sans text-slate-900">
+    <div className={`min-h-screen flex flex-col font-sans transition-colors duration-200 ${
+      isDarkMode ? 'dark bg-slate-950 text-slate-100' : 'bg-slate-50 text-slate-900'
+    }`}>
       
-      {/* Navigation Bar with Quick-Jump Search & Mobile Drawer */}
+      {/* Navigation Bar with Quick-Jump Search, Dark Mode Switch & Mobile Drawer */}
       <Navbar
         activeTab={activeTab}
         setActiveTab={setActiveTab}
@@ -204,6 +224,8 @@ export default function App() {
         onSelectTickerForLookup={handleSelectTickerForLookup}
         onSelectTickerForStatements={handleSelectTickerForStatements}
         onAddTradeWithTicker={handleAddTradeWithTicker}
+        isDarkMode={isDarkMode}
+        onToggleDarkMode={handleToggleDarkMode}
       />
 
       {/* Global Toast Notification */}

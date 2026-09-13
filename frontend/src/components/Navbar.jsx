@@ -3,7 +3,7 @@ import {
   Home, LayoutDashboard, ListOrdered, Search, BrainCircuit, RefreshCw,
   Layers, SlidersHorizontal, TrendingUp, Newspaper, ShieldCheck, FileText,
   Eye, Scale, FileSpreadsheet, Menu, X, ArrowRight, CornerDownLeft, Sparkles,
-  Download
+  Download, Sun, Moon
 } from 'lucide-react';
 import { api } from '../services/api';
 
@@ -20,7 +20,9 @@ export default function Navbar({
   watchlist = [],
   onSelectTickerForLookup,
   onSelectTickerForStatements,
-  onAddTradeWithTicker
+  onAddTradeWithTicker,
+  isDarkMode = false,
+  onToggleDarkMode
 }) {
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
   const [searchQuery, setSearchQuery] = useState('');
@@ -339,8 +341,22 @@ export default function Navbar({
             </div>
           </div>
 
-          {/* Action Buttons: Backup, Refresh & Mobile Menu Hamburger */}
+          {/* Action Buttons: Dark Mode Switch, Backup, Refresh & Mobile Menu Hamburger */}
           <div className="flex items-center space-x-2 flex-shrink-0">
+            {/* Dark Mode Switch Toggle */}
+            <button
+              onClick={onToggleDarkMode}
+              title={isDarkMode ? "Switch to Light Mode" : "Switch to Dark Mode"}
+              aria-label={isDarkMode ? "Switch to Light Mode" : "Switch to Dark Mode"}
+              className="p-2 rounded-xl text-slate-300 hover:text-white bg-slate-800 hover:bg-slate-700 border border-slate-700 transition flex items-center justify-center min-w-[38px] min-h-[38px] shadow-sm group"
+            >
+              {isDarkMode ? (
+                <Sun className="w-4 h-4 text-amber-400 group-hover:rotate-45 transition-transform" />
+              ) : (
+                <Moon className="w-4 h-4 text-blue-300 group-hover:-rotate-12 transition-transform" />
+              )}
+            </button>
+
             <button
               onClick={() => api.downloadFullBackup()}
               title="Download Complete System Database Backup (JSON)"
@@ -452,6 +468,26 @@ export default function Navbar({
                 </button>
               );
             })}
+          </div>
+
+          {/* Mobile Dark Mode Switch */}
+          <div className="flex items-center justify-between p-3 bg-slate-800 rounded-xl border border-slate-700/60">
+            <div className="flex items-center space-x-2.5">
+              {isDarkMode ? (
+                <Sun className="w-4 h-4 text-amber-400" />
+              ) : (
+                <Moon className="w-4 h-4 text-blue-300" />
+              )}
+              <span className="text-xs font-semibold text-slate-200">
+                {isDarkMode ? "Dark Theme Active" : "Light Theme Active"}
+              </span>
+            </div>
+            <button
+              onClick={onToggleDarkMode}
+              className="px-3 py-1.5 bg-slate-700 hover:bg-slate-600 text-white rounded-lg text-xs font-semibold transition"
+            >
+              Switch to {isDarkMode ? "Light" : "Dark"}
+            </button>
           </div>
 
           <div className="pt-2 border-t border-slate-800 space-y-2">

@@ -5,6 +5,7 @@
 @layer base {
   body {
     font-family: 'Inter', system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, sans-serif;
+    transition: background-color 0.2s ease, color 0.2s ease;
   }
   
   code, pre, .font-mono {
@@ -12,7 +13,7 @@
   }
 }
 
-/* Custom scrollbar for clean UI */
+/* Custom scrollbars */
 ::-webkit-scrollbar {
   width: 6px;
   height: 6px;
@@ -26,4 +27,101 @@
 }
 ::-webkit-scrollbar-thumb:hover {
   background: #94a3b8;
+}
+
+/* Dark mode scrollbars */
+.dark ::-webkit-scrollbar-track {
+  background: #0f172a;
+}
+.dark ::-webkit-scrollbar-thumb {
+  background: #334155;
+}
+.dark ::-webkit-scrollbar-thumb:hover {
+  background: #475569;
+}
+
+/* Comprehensive Dark Mode Global Styles */
+.dark body,
+.dark #root {
+  background-color: #020617;
+  color: #f8fafc;
+}
+
+.dark .bg-white {
+  background-color: #0f172a !important;
+  color: #f8fafc;
+}
+
+.dark .bg-slate-50 {
+  background-color: #020617 !important;
+}
+
+.dark .bg-slate-100 {
+  background-color: #1e293b !important;
+}
+
+.dark .bg-slate-200 {
+  background-color: #334155 !important;
+}
+
+.dark .border-slate-200,
+.dark .border-slate-100 {
+  border-color: #334155 !important;
+}
+
+.dark .text-slate-900,
+.dark .text-slate-800,
+.dark .text-gray-900,
+.dark .text-gray-800 {
+  color: #f8fafc !important;
+}
+
+.dark .text-slate-700,
+.dark .text-slate-600,
+.dark .text-gray-700,
+.dark .text-gray-600 {
+  color: #cbd5e1 !important;
+}
+
+.dark .text-slate-500,
+.dark .text-slate-400 {
+  color: #94a3b8 !important;
+}
+
+/* Dark mode Form Controls */
+.dark input:not([type="checkbox"]):not([type="radio"]),
+.dark select,
+.dark textarea {
+  background-color: #1e293b !important;
+  color: #f8fafc !important;
+  border-color: #334155 !important;
+}
+
+.dark input::placeholder,
+.dark textarea::placeholder {
+  color: #64748b !important;
+}
+
+/* Dark mode Tables */
+.dark table {
+  color: #f8fafc;
+}
+
+.dark th {
+  background-color: #1e293b !important;
+  color: #cbd5e1 !important;
+  border-color: #334155 !important;
+}
+
+.dark td {
+  border-color: #1e293b !important;
+}
+
+.dark tr:hover td {
+  background-color: #1e293b/60 !important;
+}
+
+/* Dark mode Modals and Dialogs */
+.dark .shadow-2xl {
+  box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.7) !important;
 }
