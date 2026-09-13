@@ -240,22 +240,84 @@ Open **`http://localhost:5173`** in your browser.
 
 ---
 
-## 🌐 Free Cloud Deployment
+## ☁️ Persistent Shared Cloud Database (Supabase)
 
-### Option A: Render (Unified Full-Stack)
-A pre-configured `render.yaml` is included:
-- **Build Command**: `cd frontend && npm install && npm run build && cd .. && pip install -r backend/requirements.txt`
-- **Start Command**: `cd backend && py main.py`
-The Starlette backend serves both the REST API and the compiled React static files from `frontend/dist/`.
+To enable all 4 team members (**Arnav**, **Jaivish**, **Harsimar**, **Nairit**) to see and edit the exact same live portfolio, trades, and notes from any phone, laptop, or browser without syncing files:
 
-### Option B: Vercel (Frontend) + Render (Backend)
-- Deploy `frontend/` to **Vercel** (configuration included in `frontend/vercel.json`).
-- Set `VITE_API_BASE_URL` to your Render backend API URL.
+### 1. Create Free Supabase Project
+1. Go to [https://supabase.com](https://supabase.com) and create a free project named `wharton-wins`.
+2. Navigate to **SQL Editor** in the left sidebar.
+3. Open `supabase_schema.sql` from this repository, copy the entire SQL script, paste it into the Supabase SQL Editor, and click **Run**.
+   - This creates all 13 tables (`trades`, `trade_edits`, `reconciliation_checks`, `team_deadlines`, `ai_logs`, `client_ips`, `tracked_sectors`, `screener_notes`, `news_tags`, `approved_stocks`, `report_sections`, `watchlist`, `market_cache`).
+   - Seeds the official Client IPS, 11 tracked sectors, 28 approved stocks, competition deadlines, and report sections.
+   - Configures public Row Level Security (RLS) policies.
+
+### 2. Configure Environment Variables
+In your Supabase project dashboard under **Project Settings > API**:
+- Copy **Project URL** -> `SUPABASE_URL`
+- Copy **anon public API key** -> `SUPABASE_KEY` (or service_role key -> `SUPABASE_SERVICE_KEY`)
+
+Create a `.env` file in the project root (see `.env.example`):
+```bash
+SUPABASE_URL=https://your-project-id.supabase.co
+SUPABASE_KEY=your-supabase-anon-key
+```
+
+> **Dual-Engine Architecture**: If `SUPABASE_URL` and `SUPABASE_KEY` are provided, the dashboard automatically routes all reads and writes to Supabase cloud. If omitted, it seamlessly falls back to the local SQLite database (`backend/wins_data.db`).
+
+---
+
+## 🌐 Production Deployment
+
+### Option A: Vercel Monorepo Deployment (Recommended)
+The repository includes a ready-to-deploy `vercel.json` and serverless Python ASGI gateway `api/index.py`.
+
+1. Push your repository to GitHub:
+   ```bash
+   git remote add origin https://github.com/<YOUR_USERNAME>/wharton-wins-dashboard.git
+   git push -u origin main
+   ```
+2. Log into [Vercel](https://vercel.com) and click **Add New Project**.
+3. Import your `wharton-wins-dashboard` GitHub repository.
+4. In the **Environment Variables** section, add:
+   - `SUPABASE_URL`
+   - `SUPABASE_KEY`
+5. Click **Deploy**. Vercel will:
+   - Build the React production bundle into `frontend/dist`.
+   - Deploy `api/index.py` as a serverless ASGI function routing all `/api/*` requests.
+   - Serve your dashboard on a fast, global CDN URL (`https://your-app.vercel.app`).
+
+### Option B: Render Unified Full-Stack
+1. Import your GitHub repository to [Render](https://render.com).
+2. Select **Web Service** or use the included `render.yaml`.
+3. Add `SUPABASE_URL` and `SUPABASE_KEY` in Render environment variables.
+4. Render builds the React app and serves both static assets and API from Starlette on a free URL.
+
+---
+
+## 📱 Non-Technical Team Quickstart Guide
+
+For team members (**Jaivish**, **Harsimar**, **Nairit**):
+1. **Open the live URL**: Navigate to the team's deployed Vercel link on any browser or mobile phone.
+2. **Review Client Mandate**: View the Client IPS at the top of the Portfolio Overview to confirm required risk and constraints before taking action.
+3. **Log a Trade**:
+   - Navigate to **Trade Log** tab -> Click **+ Enter New Trade**.
+   - Select your name from the **Executed By** dropdown.
+   - Enter ticker, quantity, and actual manual execution price from the Wharton simulator.
+   - Document your investment rationale and exit conditions.
+   - Save. All team members will immediately see the updated portfolio value, cash balance, and exposure.
+4. **Log AI Usage**:
+   - Navigate to **AI Usage Log** tab -> Click **+ Log AI Usage**.
+   - Select your name, tool used, category, and what prompt was tested.
+5. **WInS Simulator Reconciliation**:
+   - Compare the dashboard's calculated cash and portfolio values with the official Wharton WInS simulator portal.
+   - Click **Run Audit Reconciliation** to document zero discrepancies.
 
 ---
 
 ## 👥 Team Roster
-- **Arnav**
-- **Jaivish**
-- **Harsimar**
-- **Nairit**
+- **Arnav** (Lead / Architecture)
+- **Jaivish** (Portfolio Strategy & Trading)
+- **Harsimar** (Macro Analysis & Sector Research)
+- **Nairit** (Security Selection & Quantitative Screening)
+
