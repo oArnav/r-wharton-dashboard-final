@@ -6,7 +6,7 @@ import {
   FileSpreadsheet
 } from 'lucide-react';
 import {
-  ResponsiveContainer, AreaChart, Area, Line, XAxis, YAxis,
+  ResponsiveContainer, ComposedChart, Area, Line, XAxis, YAxis,
   CartesianGrid, Tooltip, Legend
 } from 'recharts';
 import { api } from '../services/api';
@@ -33,23 +33,28 @@ export default function StockLookup({ initialTicker = '', onAddTradeWithTicker, 
     if (!sym) return;
 
     setIsLoading(true);
+    setIsLoadingHistory(true);
     setError('');
     try {
-      const data = await api.getStock(sym, forceRefresh);
+      const [data, hist] = await Promise.all([
+        api.getStock(sym, forceRefresh),
+        api.getStockHistory(sym, '5y').catch(() => [])
+      ]);
       setStockData(data);
       setTickerInput(sym);
-      if (data.eps_growth_yoy != null) {
+      setHistoryData(hist || []);
+      if (data?.eps_growth_yoy != null) {
         setCustomGrowthRate((data.eps_growth_yoy * 100).toFixed(1));
       } else {
         setCustomGrowthRate('');
       }
-      fetchPriceHistory(sym, '5y');
     } catch (err) {
       setError(err.message || `Failed to retrieve data for '${sym}'.`);
       setStockData(null);
       setHistoryData([]);
     } finally {
       setIsLoading(false);
+      setIsLoadingHistory(false);
     }
   };
 
@@ -57,7 +62,7 @@ export default function StockLookup({ initialTicker = '', onAddTradeWithTicker, 
     setIsLoadingHistory(true);
     try {
       const hist = await api.getStockHistory(symbol, period);
-      setHistoryData(hist);
+      setHistoryData(hist || []);
     } catch (err) {
       console.error('Failed to load history:', err);
       setHistoryData([]);
@@ -250,35 +255,35 @@ export default function StockLookup({ initialTicker = '', onAddTradeWithTicker, 
           </div>
 
           {/* Price History Chart Component */}
-          <div className="bg-white p-5 rounded-xl border border-slate-200 shadow-sm space-y-3">
-            <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-2 border-b border-slate-100 pb-3">
+          <div className="bg-white dark:bg-slate-900 p-5 rounded-xl border border-slate-200 dark:border-slate-800 shadow-sm space-y-3">
+            <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-2 border-b border-slate-100 dark:border-slate-800 pb-3">
               <div>
-                <h3 className="text-sm font-bold text-slate-900 flex items-center space-x-2">
-                  <ChartIcon className="w-4 h-4 text-blue-600" />
+                <h3 className="text-sm font-bold text-slate-900 dark:text-white flex items-center space-x-2">
+                  <ChartIcon className="w-4 h-4 text-blue-600 dark:text-blue-400" />
                   <span>Price History & Trend Channels — {stockData.ticker}</span>
                 </h3>
-                <p className="text-xs text-slate-500 mt-0.5">Includes 50-day and 200-day rolling moving averages</p>
+                <p className="text-xs text-slate-500 dark:text-slate-400 mt-0.5">Includes 50-day and 200-day rolling moving averages</p>
               </div>
 
               <TimePeriodFilter activePeriod={timeFilter} onChange={setTimeFilter} />
             </div>
 
             {isLoadingHistory ? (
-              <div className="h-64 flex items-center justify-center text-slate-400 text-xs">
+              <div className="h-64 flex items-center justify-center text-slate-400 dark:text-slate-500 text-xs">
                 <Loader2 className="w-4 h-4 animate-spin mr-2" />
                 <span>Loading price series...</span>
               </div>
             ) : displayHistoryData.length > 0 ? (
-              <div className="h-64 w-full">
-                <ResponsiveContainer width="100%" height="100%">
-                  <AreaChart data={displayHistoryData} margin={{ top: 10, right: 10, left: 0, bottom: 0 }}>
+              <div className="h-64 w-full" style={{ minHeight: '260px' }}>
+                <ResponsiveContainer width="100%" height={260} minHeight={260}>
+                  <ComposedChart data={displayHistoryData} margin={{ top: 10, right: 10, left: 0, bottom: 0 }}>
                     <defs>
                       <linearGradient id="colorPrice" x1="0" y1="0" x2="0" y2="1">
-                        <stop offset="5%" stopColor="#2563eb" stopOpacity={0.2} />
+                        <stop offset="5%" stopColor="#2563eb" stopOpacity={0.25} />
                         <stop offset="95%" stopColor="#2563eb" stopOpacity={0.0} />
                       </linearGradient>
                     </defs>
-                    <CartesianGrid strokeDasharray="3 3" stroke="#f1f5f9" />
+                    <CartesianGrid strokeDasharray="3 3" stroke="#94a3b8" strokeOpacity={0.25} />
                     <XAxis dataKey="date" tick={{ fontSize: 10, fill: '#64748b' }} />
                     <YAxis
                       domain={['auto', 'auto']}
@@ -318,11 +323,11 @@ export default function StockLookup({ initialTicker = '', onAddTradeWithTicker, 
                       strokeDasharray="3 3"
                       dot={false}
                     />
-                  </AreaChart>
+                  </ComposedChart>
                 </ResponsiveContainer>
               </div>
             ) : (
-              <div className="h-64 flex items-center justify-center text-slate-400 text-xs">
+              <div className="h-64 flex items-center justify-center text-slate-400 dark:text-slate-500 text-xs">
                 Historical chart unavailable for this symbol.
               </div>
             )}

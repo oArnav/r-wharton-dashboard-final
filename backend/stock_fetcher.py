@@ -19,6 +19,7 @@ logger = logging.getLogger(__name__)
 
 # In-memory cache: { ticker: { "timestamp": float, "data": dict } }
 _CACHE: Dict[str, Dict[str, Any]] = {}
+_HISTORY_CACHE: Dict[Tuple[str, str], Dict[str, Any]] = {}
 CACHE_TTL_SECONDS = 900  # 15 minutes
 
 
@@ -169,30 +170,88 @@ def fetch_stock_history(ticker: str, period: str = "6mo") -> List[Dict[str, Any]
     """
     Fetches historical daily close prices and rolling moving averages for a stock ticker.
     Used for price charts in Stock Lookup.
+    Guarantees:
+    - Zero NaNs or Infs (100% JSON compliant)
+    - Fast in-memory caching to eliminate Yahoo rate limits
+    - Graceful fallback across periods and ticker dot-normalization (BRK.B -> BRK-B)
     """
     symbol = ticker.strip().upper()
+    if not symbol:
+        return []
+
+    yf_symbol = symbol.replace(".", "-")
+    now = time.time()
+
+    # Check in-memory history cache
+    cache_key = (symbol, period)
+    if cache_key in _HISTORY_CACHE:
+        cached_entry = _HISTORY_CACHE[cache_key]
+        if now - cached_entry["timestamp"] < CACHE_TTL_SECONDS and cached_entry.get("data"):
+            return cached_entry["data"]
+
     try:
-        stock = yf.Ticker(symbol)
+        stock = yf.Ticker(yf_symbol)
         df = stock.history(period=period)
+        
+        # If requested period is empty (e.g. 5y), fallback to 2y or 1y
+        if df.empty and period in ["5y", "2y"]:
+            for fb_period in ["2y", "1y", "6mo"]:
+                df = stock.history(period=fb_period)
+                if not df.empty:
+                    break
+
+        if df.empty:
+            # Check if any other period is cached for this symbol
+            for (s, _), entry in _HISTORY_CACHE.items():
+                if s == symbol and entry.get("data"):
+                    return entry["data"]
+            return []
+
+        # Sanitize DataFrame: drop any rows without Close
+        df = df.dropna(subset=["Close"])
         if df.empty:
             return []
 
+        # Rolling moving averages
         df["50_MA"] = df["Close"].rolling(window=50, min_periods=1).mean()
         df["200_MA"] = df["Close"].rolling(window=200, min_periods=1).mean()
 
         points = []
         for index, row in df.iterrows():
+            close_val = _safe_float(row.get("Close"))
+            # Skip invalid or non-positive price rows
+            if close_val is None or close_val <= 0:
+                continue
+
             date_str = index.strftime("%Y-%m-%d")
+            ma50_val = _safe_float(row.get("50_MA"))
+            ma200_val = _safe_float(row.get("200_MA"))
+            
+            # Safe volume integer
+            vol_raw = row.get("Volume", 0)
+            try:
+                vol = int(vol_raw) if not (isinstance(vol_raw, float) and (np.isnan(vol_raw) or np.isinf(vol_raw))) else 0
+            except Exception:
+                vol = 0
+
             points.append({
                 "date": date_str,
-                "price": round(float(row["Close"]), 2),
-                "ma50": round(float(row["50_MA"]), 2) if not np.isnan(row["50_MA"]) else None,
-                "ma200": round(float(row["200_MA"]), 2) if not np.isnan(row["200_MA"]) else None,
-                "volume": int(row.get("Volume", 0))
+                "price": round(close_val, 2),
+                "ma50": round(ma50_val, 2) if ma50_val is not None else None,
+                "ma200": round(ma200_val, 2) if ma200_val is not None else None,
+                "volume": vol
             })
+
+        if points:
+            _HISTORY_CACHE[cache_key] = {"timestamp": now, "data": points}
+
         return points
     except Exception as e:
         logger.error(f"Error fetching history for {symbol}: {e}")
+        # Fallback to cached history if available
+        for (s, _), entry in _HISTORY_CACHE.items():
+            if s == symbol and entry.get("data"):
+                return entry["data"]
         return []
 
 
@@ -276,19 +335,27 @@ def fetch_risk_free_rate() -> float:
 def fetch_historical_closes(tickers: List[str], period: str = "6mo") -> pd.DataFrame:
     """
     Fetches historical daily close prices for a list of tickers.
+    Safely normalizes dot tickers (e.g. BRK.B -> BRK-B) and cleans NaNs.
     """
     valid_tickers = [t.strip().upper() for t in tickers if t.strip()]
     if not valid_tickers:
         return pd.DataFrame()
 
+    # Map dot tickers (e.g. BRK.B -> BRK-B for Yahoo Finance)
+    yf_to_orig = {t.replace(".", "-"): t for t in valid_tickers}
+    download_tickers = list(yf_to_orig.keys())
+
     try:
-        data = yf.download(valid_tickers, period=period, progress=False)
+        data = yf.download(download_tickers, period=period, progress=False)
         if "Close" in data:
             closes = data["Close"]
         else:
             closes = data
         if isinstance(closes, pd.Series):
-            closes = closes.to_frame(name=valid_tickers[0])
+            closes = closes.to_frame(name=download_tickers[0])
+        
+        # Rename columns back to original tickers
+        closes = closes.rename(columns=yf_to_orig)
         closes = closes.dropna(how="all").ffill().bfill()
         return closes
     except Exception as e:

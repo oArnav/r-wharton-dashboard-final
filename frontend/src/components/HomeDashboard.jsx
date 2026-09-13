@@ -485,200 +485,269 @@ export default function HomeDashboard({
       </div>
 
       {/* 4. Module Launchpad Grid */}
-      <div className="bg-white rounded-2xl p-5 sm:p-6 border border-slate-200 shadow-sm space-y-4">
+      <div className="bg-white dark:bg-slate-900 rounded-2xl p-5 sm:p-6 border border-slate-200 dark:border-slate-800 shadow-sm space-y-4">
         <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-2">
           <div>
-            <h2 className="text-base sm:text-lg font-bold text-slate-900 tracking-tight">Institutional Navigation Launchpad</h2>
-            <p className="text-xs text-slate-500 mt-0.5">Quick access to all research, valuation, governance, and trading tools</p>
+            <h2 className="text-base sm:text-lg font-bold text-slate-900 dark:text-white tracking-tight">Institutional Navigation Launchpad</h2>
+            <p className="text-xs text-slate-500 dark:text-slate-400 mt-0.5">Quick access to all research, valuation, governance, and trading tools</p>
           </div>
-          <span className="text-[11px] font-semibold text-slate-400 bg-slate-100 px-2.5 py-1 rounded-full self-start sm:self-auto">
+          <span className="text-[11px] font-semibold text-slate-500 dark:text-slate-400 bg-slate-100 dark:bg-slate-800 px-2.5 py-1 rounded-full border border-slate-200/60 dark:border-slate-700/60 self-start sm:self-auto">
             12 Institutional Modules
           </span>
         </div>
 
         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-4">
           
-          {/* Phase 4: Watchlist Pipeline */}
-          <button
-            onClick={() => onSelectTab('watchlist')}
-            className="p-4 rounded-xl border border-blue-200 bg-blue-50/30 hover:border-blue-500 hover:bg-white hover:shadow-md transition text-left group"
-          >
-            <div className="flex items-center justify-between">
-              <div className="p-2 w-fit rounded-lg bg-blue-100 text-blue-700 group-hover:bg-blue-600 group-hover:text-white transition">
-                <Eye className="w-5 h-5" />
-              </div>
-              <span className="text-[10px] uppercase font-extrabold px-1.5 py-0.5 rounded bg-blue-100 text-blue-800">
-                Pipeline
-              </span>
-            </div>
-            <h3 className="font-bold text-sm text-slate-900 mt-3 group-hover:text-blue-600 transition">Watchlist Pipeline</h3>
-            <p className="text-xs text-slate-500 mt-1">Prospective stock pipeline with target prices, thesis tracking, and 1-click Convert to Trade.</p>
-          </button>
-
-          {/* Financial Statements */}
-          <button
-            onClick={() => onSelectTab('statements')}
-            className="p-4 rounded-xl border border-indigo-200 bg-indigo-50/30 hover:border-indigo-500 hover:bg-white hover:shadow-md transition text-left group"
-          >
-            <div className="flex items-center justify-between">
-              <div className="p-2 w-fit rounded-lg bg-indigo-100 text-indigo-700 group-hover:bg-indigo-600 group-hover:text-white transition">
-                <FileSpreadsheet className="w-5 h-5" />
-              </div>
-              <span className="text-[10px] uppercase font-extrabold px-1.5 py-0.5 rounded bg-indigo-100 text-indigo-800">
-                Filings
-              </span>
-            </div>
-            <h3 className="font-bold text-sm text-slate-900 mt-3 group-hover:text-indigo-600 transition">Financial Statement Fetcher</h3>
-            <p className="text-xs text-slate-500 mt-1">Raw Income Statement, Balance Sheet, and Cash Flow filings with annual/quarterly toggles.</p>
-          </button>
-
-          {/* Compare View */}
-          <button
-            onClick={() => onSelectTab('compare')}
-            className="p-4 rounded-xl border border-purple-200 bg-purple-50/30 hover:border-purple-500 hover:bg-white hover:shadow-md transition text-left group"
-          >
-            <div className="flex items-center justify-between">
-              <div className="p-2 w-fit rounded-lg bg-purple-100 text-purple-700 group-hover:bg-purple-600 group-hover:text-white transition">
-                <Scale className="w-5 h-5" />
-              </div>
-              <span className="text-[10px] uppercase font-extrabold px-1.5 py-0.5 rounded bg-purple-100 text-purple-800">
-                Matrix
-              </span>
-            </div>
-            <h3 className="font-bold text-sm text-slate-900 mt-3 group-hover:text-purple-600 transition">Peer Comparison Matrix</h3>
-            <p className="text-xs text-slate-500 mt-1">Side-by-side 2–4 ticker fundamentals comparison with green best-in-class highlights.</p>
-          </button>
-
           {/* 1. Trade Log */}
           <button
             onClick={() => onSelectTab('trades')}
-            className="p-4 rounded-xl border border-slate-200 hover:border-blue-500 hover:shadow-md transition text-left group bg-slate-50/50 hover:bg-white"
+            className="p-4 rounded-xl border border-slate-200 dark:border-slate-800 bg-slate-50/60 hover:bg-white dark:bg-slate-800/50 dark:hover:bg-slate-800 hover:border-blue-500 dark:hover:border-blue-500 hover:shadow-md transition-all text-left group flex flex-col justify-between"
           >
-            <div className="p-2 w-fit rounded-lg bg-blue-100 text-blue-700 group-hover:bg-blue-600 group-hover:text-white transition">
-              <ListOrdered className="w-5 h-5" />
+            <div>
+              <div className="flex items-center justify-between">
+                <div className="p-2 w-fit rounded-lg bg-blue-100/70 text-blue-700 dark:bg-blue-950/60 dark:text-blue-400 group-hover:bg-blue-600 group-hover:text-white dark:group-hover:bg-blue-600 dark:group-hover:text-white transition-colors">
+                  <ListOrdered className="w-5 h-5" />
+                </div>
+                <span className="text-[10px] uppercase font-bold px-2 py-0.5 rounded bg-slate-200/70 text-slate-700 dark:bg-slate-700/60 dark:text-slate-300 tracking-wider">
+                  Trading
+                </span>
+              </div>
+              <h3 className="font-bold text-sm text-slate-900 dark:text-slate-100 mt-3 group-hover:text-blue-600 dark:group-hover:text-blue-400 transition-colors">Trade Log & Execution</h3>
+              <p className="text-xs text-slate-500 dark:text-slate-400 mt-1 leading-relaxed">Execute virtual holdings, record entries/exits, realize P&L, and export full CSV.</p>
             </div>
-            <h3 className="font-bold text-sm text-slate-900 mt-3 group-hover:text-blue-600 transition">Trade Log & Execution</h3>
-            <p className="text-xs text-slate-500 mt-1">Execute virtual holdings, record entries/exits, realize P&L, and export full CSV.</p>
           </button>
 
-          {/* 2. Approved Stock List */}
+          {/* 2. Watchlist Pipeline */}
+          <button
+            onClick={() => onSelectTab('watchlist')}
+            className="p-4 rounded-xl border border-slate-200 dark:border-slate-800 bg-slate-50/60 hover:bg-white dark:bg-slate-800/50 dark:hover:bg-slate-800 hover:border-blue-500 dark:hover:border-blue-500 hover:shadow-md transition-all text-left group flex flex-col justify-between"
+          >
+            <div>
+              <div className="flex items-center justify-between">
+                <div className="p-2 w-fit rounded-lg bg-blue-100/70 text-blue-700 dark:bg-blue-950/60 dark:text-blue-400 group-hover:bg-blue-600 group-hover:text-white dark:group-hover:bg-blue-600 dark:group-hover:text-white transition-colors">
+                  <Eye className="w-5 h-5" />
+                </div>
+                <span className="text-[10px] uppercase font-bold px-2 py-0.5 rounded bg-slate-200/70 text-slate-700 dark:bg-slate-700/60 dark:text-slate-300 tracking-wider">
+                  Pipeline
+                </span>
+              </div>
+              <h3 className="font-bold text-sm text-slate-900 dark:text-slate-100 mt-3 group-hover:text-blue-600 dark:group-hover:text-blue-400 transition-colors">Watchlist Pipeline</h3>
+              <p className="text-xs text-slate-500 dark:text-slate-400 mt-1 leading-relaxed">Prospective stock pipeline with target prices, thesis tracking, and 1-click Convert to Trade.</p>
+            </div>
+          </button>
+
+          {/* 3. Approved Stock List */}
           <button
             onClick={() => onSelectTab('approved')}
-            className="p-4 rounded-xl border border-slate-200 hover:border-emerald-500 hover:shadow-md transition text-left group bg-slate-50/50 hover:bg-white"
+            className="p-4 rounded-xl border border-slate-200 dark:border-slate-800 bg-slate-50/60 hover:bg-white dark:bg-slate-800/50 dark:hover:bg-slate-800 hover:border-blue-500 dark:hover:border-blue-500 hover:shadow-md transition-all text-left group flex flex-col justify-between"
           >
-            <div className="p-2 w-fit rounded-lg bg-emerald-100 text-emerald-700 group-hover:bg-emerald-600 group-hover:text-white transition">
-              <ShieldCheck className="w-5 h-5" />
+            <div>
+              <div className="flex items-center justify-between">
+                <div className="p-2 w-fit rounded-lg bg-blue-100/70 text-blue-700 dark:bg-blue-950/60 dark:text-blue-400 group-hover:bg-blue-600 group-hover:text-white dark:group-hover:bg-blue-600 dark:group-hover:text-white transition-colors">
+                  <ShieldCheck className="w-5 h-5" />
+                </div>
+                <span className="text-[10px] uppercase font-bold px-2 py-0.5 rounded bg-slate-200/70 text-slate-700 dark:bg-slate-700/60 dark:text-slate-300 tracking-wider">
+                  Compliance
+                </span>
+              </div>
+              <h3 className="font-bold text-sm text-slate-900 dark:text-slate-100 mt-3 group-hover:text-blue-600 dark:group-hover:text-blue-400 transition-colors">Approved Stock List</h3>
+              <p className="text-xs text-slate-500 dark:text-slate-400 mt-1 leading-relaxed">Wharton guidebook eligible ticker directory with bulk paste and rule checks.</p>
             </div>
-            <h3 className="font-bold text-sm text-slate-900 mt-3 group-hover:text-emerald-600 transition">Approved Stock List</h3>
-            <p className="text-xs text-slate-500 mt-1">Wharton guidebook eligible ticker directory with bulk paste and rule checks.</p>
           </button>
 
-          {/* 3. Screener & Scorecard */}
+          {/* 4. Company Screener */}
           <button
             onClick={() => onSelectTab('screener')}
-            className="p-4 rounded-xl border border-slate-200 hover:border-indigo-500 hover:shadow-md transition text-left group bg-slate-50/50 hover:bg-white"
+            className="p-4 rounded-xl border border-slate-200 dark:border-slate-800 bg-slate-50/60 hover:bg-white dark:bg-slate-800/50 dark:hover:bg-slate-800 hover:border-blue-500 dark:hover:border-blue-500 hover:shadow-md transition-all text-left group flex flex-col justify-between"
           >
-            <div className="p-2 w-fit rounded-lg bg-indigo-100 text-indigo-700 group-hover:bg-indigo-600 group-hover:text-white transition">
-              <SlidersHorizontal className="w-5 h-5" />
+            <div>
+              <div className="flex items-center justify-between">
+                <div className="p-2 w-fit rounded-lg bg-blue-100/70 text-blue-700 dark:bg-blue-950/60 dark:text-blue-400 group-hover:bg-blue-600 group-hover:text-white dark:group-hover:bg-blue-600 dark:group-hover:text-white transition-colors">
+                  <SlidersHorizontal className="w-5 h-5" />
+                </div>
+                <span className="text-[10px] uppercase font-bold px-2 py-0.5 rounded bg-slate-200/70 text-slate-700 dark:bg-slate-700/60 dark:text-slate-300 tracking-wider">
+                  Scorecard
+                </span>
+              </div>
+              <h3 className="font-bold text-sm text-slate-900 dark:text-slate-100 mt-3 group-hover:text-blue-600 dark:group-hover:text-blue-400 transition-colors">Company Screener</h3>
+              <p className="text-xs text-slate-500 dark:text-slate-400 mt-1 leading-relaxed">Custom weighted scorecard (Nairit's weights), economic moat type, and ESG notes.</p>
             </div>
-            <h3 className="font-bold text-sm text-slate-900 mt-3 group-hover:text-indigo-600 transition">Company Screener</h3>
-            <p className="text-xs text-slate-500 mt-1">Custom weighted scorecard (Nairit's weights), economic moat type, and ESG notes.</p>
           </button>
 
-          {/* 4. Sector Dashboard */}
-          <button
-            onClick={() => onSelectTab('sectors')}
-            className="p-4 rounded-xl border border-amber-500 hover:shadow-md transition text-left group bg-slate-50/50 hover:bg-white"
-          >
-            <div className="p-2 w-fit rounded-lg bg-amber-100 text-amber-700 group-hover:bg-amber-600 group-hover:text-white transition">
-              <Layers className="w-5 h-5" />
-            </div>
-            <h3 className="font-bold text-sm text-slate-900 mt-3 group-hover:text-amber-600 transition">Sector Macro Rotation</h3>
-            <p className="text-xs text-slate-500 mt-1">ETF proxy price momentum (XLK, XLV), manual rate/inflation inputs, and stance rules.</p>
-          </button>
-
-          {/* 5. Benchmark & Risk */}
-          <button
-            onClick={() => onSelectTab('benchmark')}
-            className="p-4 rounded-xl border border-slate-200 hover:border-purple-500 hover:shadow-md transition text-left group bg-slate-50/50 hover:bg-white"
-          >
-            <div className="p-2 w-fit rounded-lg bg-purple-100 text-purple-700 group-hover:bg-purple-600 group-hover:text-white transition">
-              <TrendingUp className="w-5 h-5" />
-            </div>
-            <h3 className="font-bold text-sm text-slate-900 mt-3 group-hover:text-purple-600 transition">Benchmark & Risk Engine</h3>
-            <p className="text-xs text-slate-500 mt-1">Portfolio vs S&P 500 cumulative return chart, 1D/5D/1M/6M/YTD/1Y/5Y/All filters, Sharpe, and beta.</p>
-          </button>
-
-          {/* 6. Report Outline Skeleton */}
-          <button
-            onClick={() => onSelectTab('report')}
-            className="p-4 rounded-xl border border-slate-200 hover:border-rose-500 hover:shadow-md transition text-left group bg-slate-50/50 hover:bg-white"
-          >
-            <div className="p-2 w-fit rounded-lg bg-rose-100 text-rose-700 group-hover:bg-rose-600 group-hover:text-white transition">
-              <FileText className="w-5 h-5" />
-            </div>
-            <h3 className="font-bold text-sm text-slate-900 mt-3 group-hover:text-rose-600 transition">Final Report Skeleton</h3>
-            <p className="text-xs text-slate-500 mt-1">Standard 8-section report editor with auto-save and full markdown document export.</p>
-          </button>
-
-          {/* 7. News Scanner */}
-          <button
-            onClick={() => onSelectTab('news')}
-            className="p-4 rounded-xl border border-slate-200 hover:border-cyan-500 hover:shadow-md transition text-left group bg-slate-50/50 hover:bg-white"
-          >
-            <div className="p-2 w-fit rounded-lg bg-cyan-100 text-cyan-700 group-hover:bg-cyan-600 group-hover:text-white transition">
-              <Newspaper className="w-5 h-5" />
-            </div>
-            <h3 className="font-bold text-sm text-slate-900 mt-3 group-hover:text-cyan-600 transition">RSS News Scanner</h3>
-            <p className="text-xs text-slate-500 mt-1">Live financial headlines filtered by active holdings with thesis relevance tagging.</p>
-          </button>
-
-          {/* 8. AI Usage Log */}
-          <button
-            onClick={() => onSelectTab('ai-log')}
-            className="p-4 rounded-xl border border-slate-200 hover:border-slate-800 hover:shadow-md transition text-left group bg-slate-50/50 hover:bg-white"
-          >
-            <div className="p-2 w-fit rounded-lg bg-slate-200 text-slate-800 group-hover:bg-slate-900 group-hover:text-white transition">
-              <BrainCircuit className="w-5 h-5" />
-            </div>
-            <h3 className="font-bold text-sm text-slate-900 mt-3 group-hover:text-slate-900 transition">AI Usage & Disclosure</h3>
-            <p className="text-xs text-slate-500 mt-1">Member prompt audit log (Arnav/Jaivish/Harsimar/Nairit) with CSV export for WInS.</p>
-          </button>
-
-          {/* 9. Stock Fundamentals & Technical Lookup */}
+          {/* 5. Stock Lookup & Quotes */}
           <button
             onClick={() => onSelectTab('lookup')}
-            className="p-4 rounded-xl border border-slate-200 hover:border-blue-500 hover:shadow-md transition text-left group bg-slate-50/50 hover:bg-white"
+            className="p-4 rounded-xl border border-slate-200 dark:border-slate-800 bg-slate-50/60 hover:bg-white dark:bg-slate-800/50 dark:hover:bg-slate-800 hover:border-blue-500 dark:hover:border-blue-500 hover:shadow-md transition-all text-left group flex flex-col justify-between"
           >
-            <div className="p-2 w-fit rounded-lg bg-blue-100 text-blue-700 group-hover:bg-blue-600 group-hover:text-white transition">
-              <Search className="w-5 h-5" />
+            <div>
+              <div className="flex items-center justify-between">
+                <div className="p-2 w-fit rounded-lg bg-blue-100/70 text-blue-700 dark:bg-blue-950/60 dark:text-blue-400 group-hover:bg-blue-600 group-hover:text-white dark:group-hover:bg-blue-600 dark:group-hover:text-white transition-colors">
+                  <Search className="w-5 h-5" />
+                </div>
+                <span className="text-[10px] uppercase font-bold px-2 py-0.5 rounded bg-slate-200/70 text-slate-700 dark:bg-slate-700/60 dark:text-slate-300 tracking-wider">
+                  Quotes
+                </span>
+              </div>
+              <h3 className="font-bold text-sm text-slate-900 dark:text-slate-100 mt-3 group-hover:text-blue-600 dark:group-hover:text-blue-400 transition-colors">Stock Lookup & Quotes</h3>
+              <p className="text-xs text-slate-500 dark:text-slate-400 mt-1 leading-relaxed">Real-time live prices, valuation multiples, 50MA/200MA trends, and direct Trade Execution.</p>
             </div>
-            <h3 className="font-bold text-sm text-slate-900 mt-3 group-hover:text-blue-600 transition">Stock Lookup & Quotes</h3>
-            <p className="text-xs text-slate-500 mt-1">Real-time live prices, valuation multiples, 50MA/200MA trends, and direct Trade Execution.</p>
+          </button>
+
+          {/* 6. Financial Statements */}
+          <button
+            onClick={() => onSelectTab('statements')}
+            className="p-4 rounded-xl border border-slate-200 dark:border-slate-800 bg-slate-50/60 hover:bg-white dark:bg-slate-800/50 dark:hover:bg-slate-800 hover:border-blue-500 dark:hover:border-blue-500 hover:shadow-md transition-all text-left group flex flex-col justify-between"
+          >
+            <div>
+              <div className="flex items-center justify-between">
+                <div className="p-2 w-fit rounded-lg bg-blue-100/70 text-blue-700 dark:bg-blue-950/60 dark:text-blue-400 group-hover:bg-blue-600 group-hover:text-white dark:group-hover:bg-blue-600 dark:group-hover:text-white transition-colors">
+                  <FileSpreadsheet className="w-5 h-5" />
+                </div>
+                <span className="text-[10px] uppercase font-bold px-2 py-0.5 rounded bg-slate-200/70 text-slate-700 dark:bg-slate-700/60 dark:text-slate-300 tracking-wider">
+                  Filings
+                </span>
+              </div>
+              <h3 className="font-bold text-sm text-slate-900 dark:text-slate-100 mt-3 group-hover:text-blue-600 dark:group-hover:text-blue-400 transition-colors">Financial Statement Fetcher</h3>
+              <p className="text-xs text-slate-500 dark:text-slate-400 mt-1 leading-relaxed">Raw Income Statement, Balance Sheet, and Cash Flow filings with annual/quarterly toggles.</p>
+            </div>
+          </button>
+
+          {/* 7. Compare View */}
+          <button
+            onClick={() => onSelectTab('compare')}
+            className="p-4 rounded-xl border border-slate-200 dark:border-slate-800 bg-slate-50/60 hover:bg-white dark:bg-slate-800/50 dark:hover:bg-slate-800 hover:border-blue-500 dark:hover:border-blue-500 hover:shadow-md transition-all text-left group flex flex-col justify-between"
+          >
+            <div>
+              <div className="flex items-center justify-between">
+                <div className="p-2 w-fit rounded-lg bg-blue-100/70 text-blue-700 dark:bg-blue-950/60 dark:text-blue-400 group-hover:bg-blue-600 group-hover:text-white dark:group-hover:bg-blue-600 dark:group-hover:text-white transition-colors">
+                  <Scale className="w-5 h-5" />
+                </div>
+                <span className="text-[10px] uppercase font-bold px-2 py-0.5 rounded bg-slate-200/70 text-slate-700 dark:bg-slate-700/60 dark:text-slate-300 tracking-wider">
+                  Peers
+                </span>
+              </div>
+              <h3 className="font-bold text-sm text-slate-900 dark:text-slate-100 mt-3 group-hover:text-blue-600 dark:group-hover:text-blue-400 transition-colors">Peer Comparison Matrix</h3>
+              <p className="text-xs text-slate-500 dark:text-slate-400 mt-1 leading-relaxed">Side-by-side 2–4 ticker fundamentals comparison with green best-in-class highlights.</p>
+            </div>
+          </button>
+
+          {/* 8. Sector Dashboard */}
+          <button
+            onClick={() => onSelectTab('sectors')}
+            className="p-4 rounded-xl border border-slate-200 dark:border-slate-800 bg-slate-50/60 hover:bg-white dark:bg-slate-800/50 dark:hover:bg-slate-800 hover:border-blue-500 dark:hover:border-blue-500 hover:shadow-md transition-all text-left group flex flex-col justify-between"
+          >
+            <div>
+              <div className="flex items-center justify-between">
+                <div className="p-2 w-fit rounded-lg bg-blue-100/70 text-blue-700 dark:bg-blue-950/60 dark:text-blue-400 group-hover:bg-blue-600 group-hover:text-white dark:group-hover:bg-blue-600 dark:group-hover:text-white transition-colors">
+                  <Layers className="w-5 h-5" />
+                </div>
+                <span className="text-[10px] uppercase font-bold px-2 py-0.5 rounded bg-slate-200/70 text-slate-700 dark:bg-slate-700/60 dark:text-slate-300 tracking-wider">
+                  Macro
+                </span>
+              </div>
+              <h3 className="font-bold text-sm text-slate-900 dark:text-slate-100 mt-3 group-hover:text-blue-600 dark:group-hover:text-blue-400 transition-colors">Sector Macro Rotation</h3>
+              <p className="text-xs text-slate-500 dark:text-slate-400 mt-1 leading-relaxed">ETF proxy price momentum (XLK, XLV), manual rate/inflation inputs, and stance rules.</p>
+            </div>
+          </button>
+
+          {/* 9. Benchmark & Risk */}
+          <button
+            onClick={() => onSelectTab('benchmark')}
+            className="p-4 rounded-xl border border-slate-200 dark:border-slate-800 bg-slate-50/60 hover:bg-white dark:bg-slate-800/50 dark:hover:bg-slate-800 hover:border-blue-500 dark:hover:border-blue-500 hover:shadow-md transition-all text-left group flex flex-col justify-between"
+          >
+            <div>
+              <div className="flex items-center justify-between">
+                <div className="p-2 w-fit rounded-lg bg-blue-100/70 text-blue-700 dark:bg-blue-950/60 dark:text-blue-400 group-hover:bg-blue-600 group-hover:text-white dark:group-hover:bg-blue-600 dark:group-hover:text-white transition-colors">
+                  <TrendingUp className="w-5 h-5" />
+                </div>
+                <span className="text-[10px] uppercase font-bold px-2 py-0.5 rounded bg-slate-200/70 text-slate-700 dark:bg-slate-700/60 dark:text-slate-300 tracking-wider">
+                  Risk
+                </span>
+              </div>
+              <h3 className="font-bold text-sm text-slate-900 dark:text-slate-100 mt-3 group-hover:text-blue-600 dark:group-hover:text-blue-400 transition-colors">Benchmark & Risk Engine</h3>
+              <p className="text-xs text-slate-500 dark:text-slate-400 mt-1 leading-relaxed">Portfolio vs S&P 500 cumulative return chart, 1D/5D/1M/6M/YTD/1Y/5Y/All filters, Sharpe, and beta.</p>
+            </div>
+          </button>
+
+          {/* 10. Report Outline Skeleton */}
+          <button
+            onClick={() => onSelectTab('report')}
+            className="p-4 rounded-xl border border-slate-200 dark:border-slate-800 bg-slate-50/60 hover:bg-white dark:bg-slate-800/50 dark:hover:bg-slate-800 hover:border-blue-500 dark:hover:border-blue-500 hover:shadow-md transition-all text-left group flex flex-col justify-between"
+          >
+            <div>
+              <div className="flex items-center justify-between">
+                <div className="p-2 w-fit rounded-lg bg-blue-100/70 text-blue-700 dark:bg-blue-950/60 dark:text-blue-400 group-hover:bg-blue-600 group-hover:text-white dark:group-hover:bg-blue-600 dark:group-hover:text-white transition-colors">
+                  <FileText className="w-5 h-5" />
+                </div>
+                <span className="text-[10px] uppercase font-bold px-2 py-0.5 rounded bg-slate-200/70 text-slate-700 dark:bg-slate-700/60 dark:text-slate-300 tracking-wider">
+                  Reporting
+                </span>
+              </div>
+              <h3 className="font-bold text-sm text-slate-900 dark:text-slate-100 mt-3 group-hover:text-blue-600 dark:group-hover:text-blue-400 transition-colors">Final Report Skeleton</h3>
+              <p className="text-xs text-slate-500 dark:text-slate-400 mt-1 leading-relaxed">Standard 8-section report editor with auto-save and full markdown document export.</p>
+            </div>
+          </button>
+
+          {/* 11. News Scanner */}
+          <button
+            onClick={() => onSelectTab('news')}
+            className="p-4 rounded-xl border border-slate-200 dark:border-slate-800 bg-slate-50/60 hover:bg-white dark:bg-slate-800/50 dark:hover:bg-slate-800 hover:border-blue-500 dark:hover:border-blue-500 hover:shadow-md transition-all text-left group flex flex-col justify-between"
+          >
+            <div>
+              <div className="flex items-center justify-between">
+                <div className="p-2 w-fit rounded-lg bg-blue-100/70 text-blue-700 dark:bg-blue-950/60 dark:text-blue-400 group-hover:bg-blue-600 group-hover:text-white dark:group-hover:bg-blue-600 dark:group-hover:text-white transition-colors">
+                  <Newspaper className="w-5 h-5" />
+                </div>
+                <span className="text-[10px] uppercase font-bold px-2 py-0.5 rounded bg-slate-200/70 text-slate-700 dark:bg-slate-700/60 dark:text-slate-300 tracking-wider">
+                  Intelligence
+                </span>
+              </div>
+              <h3 className="font-bold text-sm text-slate-900 dark:text-slate-100 mt-3 group-hover:text-blue-600 dark:group-hover:text-blue-400 transition-colors">RSS News Scanner</h3>
+              <p className="text-xs text-slate-500 dark:text-slate-400 mt-1 leading-relaxed">Live financial headlines filtered by active holdings with thesis relevance tagging.</p>
+            </div>
+          </button>
+
+          {/* 12. AI Usage Log */}
+          <button
+            onClick={() => onSelectTab('ai-log')}
+            className="p-4 rounded-xl border border-slate-200 dark:border-slate-800 bg-slate-50/60 hover:bg-white dark:bg-slate-800/50 dark:hover:bg-slate-800 hover:border-blue-500 dark:hover:border-blue-500 hover:shadow-md transition-all text-left group flex flex-col justify-between"
+          >
+            <div>
+              <div className="flex items-center justify-between">
+                <div className="p-2 w-fit rounded-lg bg-blue-100/70 text-blue-700 dark:bg-blue-950/60 dark:text-blue-400 group-hover:bg-blue-600 group-hover:text-white dark:group-hover:bg-blue-600 dark:group-hover:text-white transition-colors">
+                  <BrainCircuit className="w-5 h-5" />
+                </div>
+                <span className="text-[10px] uppercase font-bold px-2 py-0.5 rounded bg-slate-200/70 text-slate-700 dark:bg-slate-700/60 dark:text-slate-300 tracking-wider">
+                  Audit
+                </span>
+              </div>
+              <h3 className="font-bold text-sm text-slate-900 dark:text-slate-100 mt-3 group-hover:text-blue-600 dark:group-hover:text-blue-400 transition-colors">AI Usage & Disclosure</h3>
+              <p className="text-xs text-slate-500 dark:text-slate-400 mt-1 leading-relaxed">Member prompt audit log (Arnav/Jaivish/Harsimar/Nairit) with CSV export for WInS.</p>
+            </div>
           </button>
 
         </div>
       </div>
 
       {/* 5. Team Milestones & Competition Deadlines Manager (Phase 5) */}
-      <div className="bg-white rounded-2xl p-5 sm:p-6 border border-slate-200 shadow-sm space-y-5">
-        <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-3 pb-3 border-b border-slate-100">
+      <div className="bg-white dark:bg-slate-900 rounded-2xl p-5 sm:p-6 border border-slate-200 dark:border-slate-800 shadow-sm space-y-5">
+        <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-3 pb-3 border-b border-slate-100 dark:border-slate-800">
           <div className="flex items-center space-x-2.5">
-            <div className="w-8 h-8 rounded-lg bg-amber-50 text-amber-600 flex items-center justify-center">
+            <div className="w-8 h-8 rounded-lg bg-amber-50 dark:bg-amber-950/60 text-amber-600 dark:text-amber-400 flex items-center justify-center">
               <Calendar className="w-4 h-4" />
             </div>
             <div>
-              <h2 className="text-base font-bold text-slate-900">Competition Deadlines & Team Milestones</h2>
-              <p className="text-xs text-slate-500">Official Wharton WInS milestones and internal team checkpoints for Arnav, Jaivish, Harsimar, and Nairit</p>
+              <h2 className="text-base font-bold text-slate-900 dark:text-white">Competition Deadlines & Team Milestones</h2>
+              <p className="text-xs text-slate-500 dark:text-slate-400">Official Wharton WInS milestones and internal team checkpoints for Arnav, Jaivish, Harsimar, and Nairit</p>
             </div>
           </div>
           <button
             onClick={loadDeadlines}
             disabled={isLoadingDeadlines}
-            className="p-1.5 rounded-lg border border-slate-200 hover:bg-slate-50 text-slate-500 hover:text-slate-800 text-xs flex items-center space-x-1 self-start sm:self-auto"
+            className="p-1.5 rounded-lg border border-slate-200 dark:border-slate-700 hover:bg-slate-50 dark:hover:bg-slate-800 text-slate-500 dark:text-slate-400 hover:text-slate-800 dark:hover:text-slate-200 text-xs flex items-center space-x-1 self-start sm:self-auto transition"
             title="Refresh deadlines"
           >
-            <RefreshCw className={`w-3.5 h-3.5 ${isLoadingDeadlines ? 'animate-spin text-amber-600' : ''}`} />
+            <RefreshCw className={`w-3.5 h-3.5 ${isLoadingDeadlines ? 'animate-spin text-amber-600 dark:text-amber-400' : ''}`} />
             <span className="text-[11px]">Refresh</span>
           </button>
         </div>
@@ -686,7 +755,7 @@ export default function HomeDashboard({
         {/* Deadlines List */}
         <div className="grid grid-cols-1 md:grid-cols-2 gap-3.5">
           {deadlines.length === 0 ? (
-            <div className="col-span-2 py-6 text-center text-xs text-slate-400">
+            <div className="col-span-2 py-6 text-center text-xs text-slate-400 dark:text-slate-500">
               {isLoadingDeadlines ? 'Loading team deadlines...' : 'No deadlines found.'}
             </div>
           ) : (
@@ -697,12 +766,12 @@ export default function HomeDashboard({
                   key={item.id}
                   className={`p-4 rounded-xl border transition flex flex-col justify-between ${
                     st.isUrgent
-                      ? 'border-rose-300 bg-rose-50/40'
+                      ? 'border-rose-300 dark:border-rose-800/80 bg-rose-50/40 dark:bg-rose-950/30'
                       : st.isSoon
-                      ? 'border-amber-200 bg-amber-50/30'
+                      ? 'border-amber-200 dark:border-amber-800/80 bg-amber-50/30 dark:bg-amber-950/30'
                       : st.isOverdue
-                      ? 'border-slate-200 bg-slate-50/60 opacity-75'
-                      : 'border-slate-200 bg-white hover:shadow-sm'
+                      ? 'border-slate-200 dark:border-slate-700 bg-slate-50/60 dark:bg-slate-800/40 opacity-75'
+                      : 'border-slate-200 dark:border-slate-700/80 bg-white dark:bg-slate-800/60 hover:shadow-sm'
                   }`}
                 >
                   <div className="flex items-start justify-between gap-2">
@@ -710,27 +779,27 @@ export default function HomeDashboard({
                       <div className="flex items-center space-x-2">
                         <span className={`text-[10px] uppercase font-bold px-2 py-0.5 rounded-md border ${
                           item.is_hard_deadline
-                            ? 'bg-rose-100 text-rose-800 border-rose-200'
-                            : 'bg-blue-100 text-blue-800 border-blue-200'
+                            ? 'bg-rose-100 text-rose-800 border-rose-200 dark:bg-rose-950/80 dark:text-rose-300 dark:border-rose-800'
+                            : 'bg-blue-100 text-blue-800 border-blue-200 dark:bg-blue-950/80 dark:text-blue-300 dark:border-blue-800'
                         }`}>
                           {item.is_hard_deadline ? 'Wharton Official Rule' : 'Internal Milestone'}
                         </span>
                       </div>
-                      <h4 className="font-bold text-sm text-slate-900 mt-2">{item.title}</h4>
+                      <h4 className="font-bold text-sm text-slate-900 dark:text-slate-100 mt-2">{item.title}</h4>
                       {item.description && (
-                        <p className="text-xs text-slate-600 mt-1">{item.description}</p>
+                        <p className="text-xs text-slate-600 dark:text-slate-400 mt-1">{item.description}</p>
                       )}
                     </div>
 
                     <div className="text-right flex-shrink-0">
                       <span className={`text-[11px] font-bold px-2.5 py-1 rounded-full border inline-block ${
                         st.isOverdue
-                          ? 'bg-slate-200 text-slate-700 border-slate-300'
+                          ? 'bg-slate-200 text-slate-700 border-slate-300 dark:bg-slate-700 dark:text-slate-300 dark:border-slate-600'
                           : st.isUrgent
                           ? 'bg-rose-600 text-white border-rose-700 animate-pulse'
                           : st.isSoon
-                          ? 'bg-amber-100 text-amber-900 border-amber-300'
-                          : 'bg-blue-100 text-blue-800 border-blue-300'
+                          ? 'bg-amber-100 text-amber-900 border-amber-300 dark:bg-amber-900/80 dark:text-amber-200 dark:border-amber-700'
+                          : 'bg-blue-100 text-blue-800 border-blue-300 dark:bg-blue-900/80 dark:text-blue-200 dark:border-blue-700'
                       }`}>
                         {st.isOverdue
                           ? 'Passed'
@@ -738,17 +807,17 @@ export default function HomeDashboard({
                           ? 'Due Today!'
                           : `${st.days}d Left`}
                       </span>
-                      <span className="text-[11px] font-mono text-slate-500 block mt-1">
+                      <span className="text-[11px] font-mono text-slate-500 dark:text-slate-400 block mt-1">
                         {item.deadline_date}
                       </span>
                     </div>
                   </div>
 
-                  <div className="mt-3 pt-2.5 border-t border-slate-100 flex items-center justify-between text-xs text-slate-400">
+                  <div className="mt-3 pt-2.5 border-t border-slate-100 dark:border-slate-700/80 flex items-center justify-between text-xs text-slate-400 dark:text-slate-500">
                     <span className="text-[11px]">Milestone ID: #{item.id}</span>
                     <button
                       onClick={() => handleDeleteDeadline(item.id)}
-                      className="text-slate-400 hover:text-rose-600 transition p-1"
+                      className="text-slate-400 hover:text-rose-600 dark:hover:text-rose-400 transition p-1"
                       title="Delete milestone"
                     >
                       <Trash2 className="w-3.5 h-3.5" />
@@ -761,52 +830,52 @@ export default function HomeDashboard({
         </div>
 
         {/* Add Milestone Form */}
-        <form onSubmit={handleAddDeadline} className="bg-slate-50 p-4 rounded-xl border border-slate-200 space-y-3">
-          <div className="flex items-center space-x-2 text-xs font-bold text-slate-800">
-            <Plus className="w-4 h-4 text-blue-600" />
+        <form onSubmit={handleAddDeadline} className="bg-slate-50 dark:bg-slate-800/50 p-4 rounded-xl border border-slate-200 dark:border-slate-700/80 space-y-3">
+          <div className="flex items-center space-x-2 text-xs font-bold text-slate-800 dark:text-slate-200">
+            <Plus className="w-4 h-4 text-blue-600 dark:text-blue-400" />
             <span>Add Internal Team Milestone or Wharton Submission Target</span>
           </div>
 
           {deadlineError && (
-            <div className="text-xs text-rose-600 font-semibold">{deadlineError}</div>
+            <div className="text-xs text-rose-600 dark:text-rose-400 font-semibold">{deadlineError}</div>
           )}
 
           <div className="grid grid-cols-1 sm:grid-cols-3 gap-3">
             <div>
-              <label className="text-[11px] font-semibold text-slate-600 block mb-1">Title *</label>
+              <label className="text-[11px] font-semibold text-slate-600 dark:text-slate-400 block mb-1">Title *</label>
               <input
                 type="text"
                 value={newTitle}
                 onChange={(e) => setNewTitle(e.target.value)}
                 placeholder="e.g. Sector Macro Review"
-                className="w-full text-xs px-3 py-2 rounded-lg border border-slate-300 focus:outline-none focus:ring-2 focus:ring-blue-500 bg-white"
+                className="w-full text-xs px-3 py-2 rounded-lg border border-slate-300 dark:border-slate-600 focus:outline-none focus:ring-2 focus:ring-blue-500 bg-white dark:bg-slate-900 text-slate-900 dark:text-slate-100"
                 required
               />
             </div>
             <div>
-              <label className="text-[11px] font-semibold text-slate-600 block mb-1">Target Date *</label>
+              <label className="text-[11px] font-semibold text-slate-600 dark:text-slate-400 block mb-1">Target Date *</label>
               <input
                 type="date"
                 value={newDate}
                 onChange={(e) => setNewDate(e.target.value)}
-                className="w-full text-xs px-3 py-2 rounded-lg border border-slate-300 focus:outline-none focus:ring-2 focus:ring-blue-500 bg-white"
+                className="w-full text-xs px-3 py-2 rounded-lg border border-slate-300 dark:border-slate-600 focus:outline-none focus:ring-2 focus:ring-blue-500 bg-white dark:bg-slate-900 text-slate-900 dark:text-slate-100"
                 required
               />
             </div>
             <div>
-              <label className="text-[11px] font-semibold text-slate-600 block mb-1">Description</label>
+              <label className="text-[11px] font-semibold text-slate-600 dark:text-slate-400 block mb-1">Description / Deliverable</label>
               <input
                 type="text"
                 value={newDesc}
                 onChange={(e) => setNewDesc(e.target.value)}
                 placeholder="Key deliverables or assignee"
-                className="w-full text-xs px-3 py-2 rounded-lg border border-slate-300 focus:outline-none focus:ring-2 focus:ring-blue-500 bg-white"
+                className="w-full text-xs px-3 py-2 rounded-lg border border-slate-300 dark:border-slate-600 focus:outline-none focus:ring-2 focus:ring-blue-500 bg-white dark:bg-slate-900 text-slate-900 dark:text-slate-100"
               />
             </div>
           </div>
 
           <div className="flex items-center justify-between pt-1">
-            <label className="flex items-center space-x-2 text-xs text-slate-700 cursor-pointer">
+            <label className="flex items-center space-x-2 text-xs text-slate-700 dark:text-slate-300 cursor-pointer">
               <input
                 type="checkbox"
                 checked={newIsHard}
