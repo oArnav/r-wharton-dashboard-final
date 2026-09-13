@@ -984,5 +984,5 @@ app = Starlette(debug=True, routes=routes, middleware=middleware)
 if __name__ == "__main__":
     import uvicorn
     port = int(os.environ.get("PORT", 8000))
-    print(f"[STARTING] WInS Investment Dashboard API (Phase 4 Final) on http://localhost:{port}")
-    uvicorn.run("main:app", host="0.0.0.0", port=port, reload=True)
+    print(f"[STARTING] WInS Investment Dashboard API (Phase 5 Production) on http://localhost:{port}")
+    uvicorn.run("main:app", host="0.0.0.0", port=port, reload=False)
