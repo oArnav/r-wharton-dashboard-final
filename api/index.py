@@ -1,4 +1,4 @@
-﻿"""
+"""
 Vercel Serverless Function entry point for Wharton WInS Dashboard.
 Exports top-level ASGI `app` for Vercel Python runtime.
 """
