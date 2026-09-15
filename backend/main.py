@@ -971,7 +971,25 @@ dist_dir = os.path.join(os.path.dirname(os.path.dirname(os.path.abspath(__file__
 if os.path.exists(dist_dir):
     routes.append(Mount("/", app=StaticFiles(directory=dist_dir, html=True), name="static"))
 
+class VercelPathNormalizationMiddleware:
+    def __init__(self, app):
+        self.app = app
+
+    async def __call__(self, scope, receive, send):
+        if scope["type"] == "http":
+            headers = dict(scope.get("headers", []))
+            matched_path = headers.get(b"x-matched-path", b"").decode("utf-8")
+            if matched_path and matched_path.startswith("/api"):
+                scope["path"] = matched_path
+            elif b"x-forwarded-uri" in headers:
+                fwd = headers.get(b"x-forwarded-uri", b"").decode("utf-8").split("?")[0]
+                if fwd.startswith("/api"):
+                    scope["path"] = fwd
+        await self.app(scope, receive, send)
+
+
 middleware = [
+    Middleware(VercelPathNormalizationMiddleware),
     Middleware(
         CORSMiddleware,
         allow_origins=["*"],
