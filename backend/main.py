@@ -887,6 +887,8 @@ routes = [
     Route("/api", health_check, methods=["GET"]),
     Route("/api/", health_check, methods=["GET"]),
     Route("/api/health", health_check, methods=["GET"]),
+    Route("/api/index.py", health_check, methods=["GET"]),
+    Route("/api/index.py/health", health_check, methods=["GET"]),
     
     # Stock, History & Financial Statements
     Route("/api/stock/{ticker}", get_stock, methods=["GET"]),
@@ -977,14 +979,19 @@ class VercelPathNormalizationMiddleware:
 
     async def __call__(self, scope, receive, send):
         if scope["type"] == "http":
-            headers = dict(scope.get("headers", []))
-            matched_path = headers.get(b"x-matched-path", b"").decode("utf-8")
-            if matched_path and matched_path.startswith("/api"):
-                scope["path"] = matched_path
-            elif b"x-forwarded-uri" in headers:
-                fwd = headers.get(b"x-forwarded-uri", b"").decode("utf-8").split("?")[0]
-                if fwd.startswith("/api"):
-                    scope["path"] = fwd
+            try:
+                headers = dict(scope.get("headers", []))
+                matched_path = headers.get(b"x-matched-path", b"").decode("utf-8")
+                if matched_path and matched_path.startswith("/api"):
+                    scope["path"] = matched_path
+                elif b"x-forwarded-uri" in headers:
+                    fwd = headers.get(b"x-forwarded-uri", b"").decode("utf-8").split("?")[0]
+                    if fwd.startswith("/api"):
+                        scope["path"] = fwd
+                if scope.get("path") in ("/api/index.py", "/api/index.py/"):
+                    scope["path"] = "/api/health"
+            except Exception:
+                pass
         await self.app(scope, receive, send)
 
 

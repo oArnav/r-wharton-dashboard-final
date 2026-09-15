@@ -19,9 +19,7 @@ for _b in _backend_dirs:
 
 import main as _main_module
 
-# Top-level entrypoint assignments required by Vercel @vercel/python
+# Top-level ASGI entrypoint required by Vercel @vercel/python
 app = _main_module.app
-application = app
-handler = app
 
 
