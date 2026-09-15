@@ -22,10 +22,22 @@ except ImportError:
     except Exception:
         supabase_client = None
 
-if os.environ.get("VERCEL") or os.environ.get("AWS_LAMBDA_FUNCTION_NAME"):
-    DB_PATH = os.environ.get("WINS_DB_PATH", os.path.join(tempfile.gettempdir(), "wins_data.db"))
-else:
-    DB_PATH = os.environ.get("WINS_DB_PATH", os.path.join(os.path.dirname(os.path.abspath(__file__)), "wins_data.db"))
+def _get_db_path() -> str:
+    explicit = os.environ.get("WINS_DB_PATH")
+    if explicit:
+        return explicit
+    local_dir = os.path.dirname(os.path.abspath(__file__))
+    is_serverless = any(
+        os.environ.get(k) for k in [
+            "VERCEL", "VERCEL_ENV", "VERCEL_REGION", "VERCEL_URL",
+            "AWS_LAMBDA_FUNCTION_NAME", "LAMBDA_TASK_ROOT", "NOW_REGION"
+        ]
+    )
+    if is_serverless or not os.access(local_dir, os.W_OK):
+        return os.path.join(tempfile.gettempdir(), "wins_data.db")
+    return os.path.join(local_dir, "wins_data.db")
+
+DB_PATH = _get_db_path()
 
 
 def use_supabase() -> bool:
@@ -33,23 +45,25 @@ def use_supabase() -> bool:
 
 
 def get_connection() -> sqlite3.Connection:
-    db_dir = os.path.dirname(DB_PATH)
-    if db_dir and not os.path.exists(db_dir):
+    global DB_PATH
+    try:
+        conn = sqlite3.connect(DB_PATH, timeout=10.0)
         try:
-            os.makedirs(db_dir, exist_ok=True)
+            conn.execute("PRAGMA journal_mode=WAL;")
         except Exception:
             pass
-    conn = sqlite3.connect(DB_PATH, timeout=10.0)
-    try:
-        conn.execute("PRAGMA journal_mode=WAL;")
-    except Exception:
-        pass
-    try:
-        conn.execute("PRAGMA busy_timeout=5000;")
-    except Exception:
-        pass
-    conn.row_factory = sqlite3.Row
-    return conn
+        try:
+            conn.execute("PRAGMA busy_timeout=5000;")
+        except Exception:
+            pass
+        conn.row_factory = sqlite3.Row
+        return conn
+    except Exception as e:
+        logger.warning(f"Failed to connect to SQLite at {DB_PATH}: {e}. Switching to temp database.")
+        DB_PATH = os.path.join(tempfile.gettempdir(), "wins_data.db")
+        conn = sqlite3.connect(DB_PATH, timeout=10.0)
+        conn.row_factory = sqlite3.Row
+        return conn
 
 
 def init_db():

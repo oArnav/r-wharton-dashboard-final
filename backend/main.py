@@ -40,8 +40,11 @@ import rss_fetcher as rss
 logging.basicConfig(level=logging.INFO, format="%(asctime)s [%(levelname)s] %(message)s")
 logger = logging.getLogger("wins_api")
 
-# Initialize database schema
-db.init_db()
+# Initialize database schema safely
+try:
+    db.init_db()
+except Exception as _e:
+    logger.warning(f"Database initialization note: {_e}")
 
 
 # ============================================================
