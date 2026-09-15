@@ -4,6 +4,7 @@
   "outputDirectory": "frontend/dist",
   "functions": {
     "api/index.py": {
+      "maxDuration": 30,
       "includeFiles": "backend/**"
     }
   },
@@ -15,6 +16,10 @@
     {
       "source": "/api/(.*)",
       "destination": "/api/index.py"
+    },
+    {
+      "source": "/(.*)",
+      "destination": "/index.html"
     }
   ]
 }

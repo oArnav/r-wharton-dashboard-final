@@ -71,24 +71,41 @@ export default function App() {
     setGlobalError('');
     try {
       const [sumRes, tradesRes, ipsRes, sectorsRes, logsRes, approvedRes, watchlistRes] = await Promise.all([
-        api.getPortfolioSummary(customRf),
-        api.getTrades(),
-        api.getIps(),
-        api.getSectors(),
-        api.getAiLogs(),
-        api.getApprovedStocks(),
+        api.getPortfolioSummary(customRf).catch((err) => {
+          console.warn('Portfolio summary fetch fallback:', err);
+          return null;
+        }),
+        api.getTrades().catch((err) => {
+          console.warn('Trades fetch fallback:', err);
+          return [];
+        }),
+        api.getIps().catch((err) => {
+          console.warn('IPS fetch fallback:', err);
+          return null;
+        }),
+        api.getSectors().catch((err) => {
+          console.warn('Sectors fetch fallback:', err);
+          return [];
+        }),
+        api.getAiLogs().catch((err) => {
+          console.warn('AI logs fetch fallback:', err);
+          return [];
+        }),
+        api.getApprovedStocks().catch((err) => {
+          console.warn('Approved stocks fetch fallback:', err);
+          return [];
+        }),
         api.getWatchlist().catch(() => []),
       ]);
-      setSummary(sumRes);
-      setTrades(tradesRes);
-      setIps(ipsRes);
-      setSectors(sectorsRes);
-      setAiLogs(logsRes);
-      setApprovedStocks(approvedRes || []);
-      setWatchlist(watchlistRes || []);
+      if (sumRes) setSummary(sumRes);
+      if (tradesRes) setTrades(tradesRes);
+      if (ipsRes) setIps(ipsRes);
+      if (sectorsRes) setSectors(sectorsRes);
+      if (logsRes) setAiLogs(logsRes);
+      if (approvedRes) setApprovedStocks(approvedRes);
+      if (watchlistRes) setWatchlist(watchlistRes);
     } catch (err) {
-      console.error('Failed to load dashboard data:', err);
-      setGlobalError(err.message || 'Unable to connect to backend server. Make sure the API server is running at http://localhost:8000.');
+      console.warn('Notice loading dashboard data:', err);
     } finally {
       setIsRefreshing(false);
     }
