@@ -982,14 +982,24 @@ class VercelPathNormalizationMiddleware:
             try:
                 headers = dict(scope.get("headers", []))
                 matched_path = headers.get(b"x-matched-path", b"").decode("utf-8")
-                if matched_path and matched_path.startswith("/api"):
+                if matched_path:
                     scope["path"] = matched_path
                 elif b"x-forwarded-uri" in headers:
                     fwd = headers.get(b"x-forwarded-uri", b"").decode("utf-8").split("?")[0]
-                    if fwd.startswith("/api"):
-                        scope["path"] = fwd
-                if scope.get("path") in ("/api/index.py", "/api/index.py/"):
+                    scope["path"] = fwd
+                
+                p = scope.get("path", "")
+                if p.startswith("/api/index.py"):
+                    p = p[len("/api/index.py"):]
+                elif p.startswith("/index.py"):
+                    p = p[len("/index.py"):]
+                
+                if not p or p == "/":
                     scope["path"] = "/api/health"
+                elif not p.startswith("/api"):
+                    scope["path"] = f"/api{p}"
+                else:
+                    scope["path"] = p
             except Exception:
                 pass
         await self.app(scope, receive, send)
