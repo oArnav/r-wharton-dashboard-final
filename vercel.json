@@ -2,20 +2,14 @@
   "version": 2,
   "buildCommand": "cd frontend && npm install && npm run build",
   "outputDirectory": "frontend/dist",
-  "functions": {
-    "api/index.py": {
-      "maxDuration": 30,
-      "includeFiles": "backend/**"
-    }
-  },
   "rewrites": [
     {
       "source": "/api",
-      "destination": "/api/index.py"
+      "destination": "/api/_backend/main.py"
     },
     {
       "source": "/api/(.*)",
-      "destination": "/api/index.py"
+      "destination": "/api/_backend/main.py"
     },
     {
       "source": "/(.*)",
