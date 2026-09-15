@@ -1,30 +1,65 @@
 @echo off
+setlocal enabledelayedexpansion
 title Wharton WInS - Deploy to Vercel
 color 0b
-echo ======================================================================
-echo          WHARTON WInS DASHBOARD - VERCEL ONE-CLICK DEPLOYER
-echo ======================================================================
-echo.
-echo Your GitHub repository is already 100% up-to-date at:
-echo https://github.com/oArnav/wharton-wins-dashboard
-echo.
-echo Choose deployment method:
-echo   [1] Deploy directly via Vercel CLI (interactive browser login)
-echo   [2] Open Vercel Project import in web browser
-echo.
-set /p choice="Enter 1 or 2: "
+cls
 
-if "%choice%"=="1" (
+echo ======================================================================
+echo          WHARTON WInS DASHBOARD - DIRECT VERCEL DEPLOYER
+echo ======================================================================
+echo.
+echo Checking Vercel CLI login status...
+call npx.cmd vercel whoami >nul 2>&1
+if %errorlevel% neq 0 (
     echo.
-    echo Running Vercel deployment...
-    echo (If not logged in, follow the quick prompt in your browser)
+    echo [ACTION REQUIRED] Vercel CLI is not authenticated yet.
+    echo Opening Vercel login in your default browser...
+    echo Follow the prompt in your browser to authorize your account.
     echo.
-    npx.cmd vercel --prod
-) else (
+    call npx.cmd vercel login
     echo.
-    echo Opening Vercel in browser...
-    start https://vercel.com/new
+    echo Rechecking login status...
+    call npx.cmd vercel whoami
+    if %errorlevel% neq 0 (
+        echo [ERROR] Authentication failed or cancelled. Please try again.
+        pause
+        exit /b 1
+    )
 )
 
 echo.
+echo [SUCCESS] Authenticated to Vercel!
+echo.
+echo Choose deployment mode:
+echo   [1] Full Stack Deployment (Backend API + Frontend)
+echo   [2] Pure Frontend Deployment (Motora style - instant client build)
+echo   [3] Open Vercel Project Dashboard in Browser
+echo.
+set /p choice="Enter your choice (1, 2, or 3): "
+
+if "%choice%"=="1" (
+    echo.
+    echo ------------------------------------------------------------------
+    echo Deploying Full Wharton WInS Stack to Vercel...
+    echo ------------------------------------------------------------------
+    call npx.cmd vercel --prod --yes
+) else if "%choice%"=="2" (
+    echo.
+    echo ------------------------------------------------------------------
+    echo Building and Deploying Pure Frontend (Motora style)...
+    echo ------------------------------------------------------------------
+    cd frontend
+    call npm.cmd run build
+    cd ..
+    call npx.cmd vercel frontend/dist --prod --yes
+) else (
+    echo.
+    echo Opening Vercel dashboard in browser...
+    start https://vercel.com/dashboard
+)
+
+echo.
+echo ======================================================================
+echo Deployment process finished!
+echo ======================================================================
 pause
