@@ -12,7 +12,7 @@ import re
 import html
 import time
 import logging
-from typing import List, Dict, Any, Set
+from typing import List, Dict, Any, Set, Optional
 import database as db
 
 logger = logging.getLogger(__name__)
