@@ -5,12 +5,25 @@ Approved Stock List, and Report Outline Skeleton.
 """
 
 import os
+import sys
+import tempfile
 import io
 import csv
 import json
 import datetime
 import logging
 from typing import Optional
+
+# Ensure temp directory for yfinance cache and sqlite on Vercel/Lambda
+_tmp_dir = tempfile.gettempdir()
+os.environ["YFINANCE_CACHE_DIR"] = os.path.join(_tmp_dir, "py-yfinance")
+if os.environ.get("VERCEL") or os.environ.get("AWS_LAMBDA_FUNCTION_NAME"):
+    os.environ.setdefault("WINS_DB_PATH", os.path.join(_tmp_dir, "wins_data.db"))
+
+# Ensure current directory is in sys.path so sibling imports always resolve
+_module_dir = os.path.dirname(os.path.abspath(__file__))
+if _module_dir not in sys.path:
+    sys.path.insert(0, _module_dir)
 
 from starlette.applications import Starlette
 from starlette.responses import JSONResponse, Response, PlainTextResponse
