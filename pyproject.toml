@@ -1,4 +1,4 @@
-[project]
+﻿[project]
 name = "wharton-wins-dashboard"
 version = "0.1.0"
 description = "Wharton Investment Simulator Dashboard"
@@ -14,4 +14,4 @@ dependencies = [
 ]
 
 [tool.vercel]
-entrypoint = "api._backend.main:app"
+entrypoint = "api/index.py"
